@@ -1,5 +1,7 @@
 (function () {
   var root = document.documentElement;
+
+  // Light / dark toggle
   var btn = document.getElementById('theme');
   function current() {
     var t = root.getAttribute('data-theme');
@@ -15,18 +17,35 @@
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 
-  // Highlight the current section in the side nav.
-  var links = {};
-  document.querySelectorAll('.rail nav a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
-  var sections = Object.keys(links).map(function (id) { return document.getElementById(id); }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          Object.keys(links).forEach(function (k) { links[k].classList.toggle('on', k === e.target.id); });
-        }
-      });
-    }, { rootMargin: '-20% 0px -70% 0px' });
-    sections.forEach(function (s) { io.observe(s); });
+  // Card details open in a dialog
+  var modal = document.getElementById('modal');
+  if (!modal || typeof modal.showModal !== 'function') {
+    root.classList.add('no-js'); // browsers without <dialog>: show details inline
+    return;
   }
+  var title = document.getElementById('modal-title');
+  var status = document.getElementById('modal-status');
+  var body = document.getElementById('modal-body');
+
+  function openCard(card) {
+    var t = card.querySelector('h3');
+    var s = card.querySelector('.status');
+    var full = card.querySelector('.full');
+    if (!t || !full) return;
+    title.textContent = t.textContent;
+    status.innerHTML = s ? s.innerHTML : '';
+    body.innerHTML = full.innerHTML;
+    modal.showModal();
+    modal.scrollTop = 0;
+    if (card.id) { try { history.replaceState(null, '', '#' + card.id); } catch (e) {} }
+  }
+
+  document.querySelectorAll('.card .open').forEach(function (b) {
+    b.addEventListener('click', function () { openCard(b.closest('.card')); });
+  });
+  modal.querySelector('.modal-x').addEventListener('click', function () { modal.close(); });
+  modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); }); // click backdrop
+  modal.addEventListener('close', function () {
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  });
 })();
