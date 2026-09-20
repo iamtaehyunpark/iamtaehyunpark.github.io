@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taehyun Park</title>
+<meta name="description" content="Taehyun Park, computer science student at UW–Madison. Research on knowing when AI agents are wrong, and software built end to end.">
+<meta property="og:title" content="Taehyun Park">
+<meta property="og:description" content="Computer science student at UW–Madison. Research on knowing when AI agents are wrong, and software built end to end.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f6f7f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111513" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%230b6e63'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-weight='700' text-anchor='middle' fill='white'%3ETP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap">
+<link rel="stylesheet" href="style.css">
+<script>
+  try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+</head>
+<body>
+<div class="page">
+
+  <aside class="rail">
+    <div class="rail-in">
+      <!-- HEADSHOT: drop a square photo at assets/headshot.jpg (at least 400x400). Until then the "TP" placeholder shows. -->
+      <div class="avatar" aria-label="Taehyun Park">
+        <span class="avatar-ph" aria-hidden="true">TP</span>
+        <img src="assets/headshot.jpg" alt="Portrait of Taehyun Park" width="120" height="120" onerror="this.remove()">
+      </div>
+      <p class="name"><a href="#top">Taehyun Park</a></p>
+      <p class="kr">박태현</p>
+      <p class="role">Computer science student at UW–Madison. I work on AI agents and build software.</p>
+
+      <nav aria-label="Sections">
+        <a href="#research">Research</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <ul class="rail-links">
+        <li><a href="mailto:tpark45@wisc.edu">tpark45@wisc.edu</a></li>
+        <li><a href="https://github.com/iamtaehyunpark">GitHub</a></li>
+        <li><a href="assets/Taehyun_Park_CV.pdf" download>CV (PDF)</a></li>
+      </ul>
+
+      <button id="theme" class="theme-btn" aria-label="Switch between light and dark theme">Light / dark</button>
+    </div>
+  </aside>
+
+  <main id="top">
+
+    <section class="intro">
+      <h1>I work on knowing when AI agents are wrong, and I build software people can use.</h1>
+      <p>I’m in my third year of a computer science degree at the University of Wisconsin–Madison (GPA 3.96, Honors in Major, Dean’s List). My research asks how an AI agent, or a team of them, can tell when it has made a mistake, and how it can keep a memory it can trust. My other work is products I take from idea to something running: a diary app for iPhone and web, a tool for working on remote servers, and browser extensions.</p>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <h2>Research</h2>
+      <p class="note">One question runs through all three: how does an AI system know what it got wrong, and what should it remember?</p>
+
+      <article class="entry">
+        <h3>A warning light for AI agents</h3>
+        <p class="meta"><span class="dot s-active"></span>Active, June to August 2026 <span class="code">DACS-AUQ</span></p>
+        <p class="plain">An AI agent finishes a task in many small steps: look something up, click a button, run a command. Sometimes step 6 quietly goes wrong and everything after it is wasted. I wanted a warning light that comes on <em>before</em> a bad step is taken.</p>
+        <p class="plain">The obvious fix is to ask the agent how sure it is. I found that this doesn’t work well: what “sure” means changes from one model to the next. So I use a separate, fixed model as an inspector. It watches every step of any agent and gives it a trust score, like a second pair of eyes that doesn’t share the agent’s blind spots.</p>
+        <ul class="bullets">
+          <li>Tested on 62,065 steps from agents doing household tasks in a text world (ALFWorld) and answering multi-part questions (HotpotQA).</li>
+          <li>The inspector caught mistakes better than the agents’ own self-checks in 9 of 11 settings, at about 1/100 the cost of using GPT-4o as the judge.</li>
+          <li>It can pick when to raise the alarm for a new agent without needing any labelled mistakes from that agent.</li>
+          <li>I kept the experiments that failed and reported them.</li>
+        </ul>
+        <p class="links"><a href="https://github.com/iamtaehyunpark/DACS-AUQ">Code and results</a></p>
+      </article>
+
+      <article class="entry">
+        <h3>Finding the step where a team of AI agents went wrong</h3>
+        <p class="meta"><span class="dot s-proto"></span>In progress, at Yonsei University, since June 2026 <span class="code">SURF</span></p>
+        <p class="plain">When several AI agents work together and the job fails, someone has to work out which step actually broke it. Reading the whole transcript with a giant model is expensive. Training a special model needs a lot of examples of labelled failures.</p>
+        <p class="plain">My idea is to use a small model that scores every step by how likely it is to be fine, and <em>not to round that score to yes or no</em>. A step rated 51% and a step rated 91% both round to “yes”, but they are very different. Keep the numbers, rank the steps, and the shakiest one is the likely culprit. No extra training and no labelled failures needed.</p>
+        <ul class="bullets">
+          <li>Being tested on Who&amp;When, a public collection of failed multi-agent runs where humans marked the culprit step.</li>
+          <li>Compared against methods that need a large judge model or extra training, on accuracy and on cost.</li>
+          <li>Experiments are still running, so I am not quoting results yet.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <h3>Memory for an AI assistant, kept as one document it edits</h3>
+        <p class="meta"><span class="dot s-shipped"></span>Completed, spring 2026 <span class="code">EngramTrace</span></p>
+        <p class="plain">Chat assistants forget. The usual fix, retrieval, chops knowledge into separate snippets and searches them, which loses how the ideas relate. I tried something closer to a well-kept notebook: everything the assistant knows lives in a single organized web document with chapters and sections. As conversations come in, the assistant files new facts in the right place, removes what’s out of date, and, after a long idle stretch, tidies the whole notebook, a bit like sleep does for us.</p>
+        <ul class="bullets">
+          <li>Because it is one document, the assistant sees the whole structure at once and can place new knowledge in a fixed number of model calls, instead of adding facts one link at a time.</li>
+          <li>A note is found partly by where it sits: each one carries some of the meaning of the headings above it, so the same sentence means different things under “Login” and under “Data formats”.</li>
+          <li>You can open the memory in any browser and read or correct it yourself.</li>
+          <li>Tested on all 2,417 questions of MuSiQue, a hard multi-step question benchmark, feeding every passage through the live memory first. Result: 0.646 answer F1 and 0.515 exact match, with open models on a single GPU. Side-by-side comparisons with plain retrieval baselines are still to come.</li>
+        </ul>
+        <p class="links"><a href="https://github.com/iamtaehyunpark/EngramTrace">Code</a></p>
+      </article>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <p class="note">Each one says whether it’s released, still being built, or set aside.</p>
+
+      <article class="entry">
+        <figure class="hero-fig">
+          <img src="assets/fethr.jpg" alt="Fethr: Keep the shape of your days" width="1200" height="630" loading="lazy">
+        </figure>
+        <h3>Fethr, a diary that starts with no rules</h3>
+        <p class="meta"><span class="dot s-active"></span>In beta, built since July 2026 <span class="code">fet.hr</span></p>
+        <div class="split">
+          <div>
+            <p class="plain">Most journaling asks you to write something worth publishing before it saves anything, so most small moments never get saved: a sentence you thought on a walk, a photo that caught a mood, the café you stepped into. Fethr turns that around. <em>Record first, shape it later.</em> You drop in tiny pieces, a line of text, photos, a place, a voice note, and they land on one private timeline with no title and no form. Weeks later, if you want, you group them into an event, start a blog entry from them, or arrange them on a pinboard. None of it is ever required.</p>
+            <ul class="bullets">
+              <li><b>Private by default.</b> The timeline has no likes, comments or audience. Only what you deliberately write or broadcast reaches anyone.</li>
+              <li><b>No blank page.</b> Select moments from your timeline and they become the first draft of a blog entry.</li>
+              <li><b>A pinboard like a room you decorate.</b> Move, resize and rotate photos, text and stickers. You can hand a friend a link, with a guestbook and a soundtrack.</li>
+              <li><b>Share a day, not a feed.</b> A broadcast lets close friends walk through your day for 24 hours, then it disappears.</li>
+              <li>Works offline, has Home Screen widgets, and speaks English and Korean.</li>
+            </ul>
+          </div>
+          <figure class="shot">
+            <img src="assets/fethr-app.jpg" alt="Fethr on iPhone: a monthly summary of visited places, with demo data" width="404" height="559" loading="lazy">
+            <figcaption>The monthly places summary on iPhone (demo data)</figcaption>
+          </figure>
+        </div>
+        <p class="stack">Designed and built by me for iPhone (SwiftUI) and web (Next.js), on Supabase and Postgres. Over 2,300 automated tests.</p>
+        <p class="links"><a href="https://fet.hr">fet.hr</a> <span class="muted">The code is private.</span></p>
+      </article>
+
+      <article class="entry">
+        <figure class="hero-fig">
+          <a href="https://iamtaehyunpark.github.io/livegit/"><img src="assets/livegit.jpg" alt="The Live Git landing page: A whole GPU server, bolted to your laptop" width="1000" height="633" loading="lazy" class="framed"></a>
+        </figure>
+        <h3>Live Git, a whole GPU server bolted to your laptop</h3>
+        <p class="meta"><span class="dot s-shipped"></span>Released and open source, June to August 2026 <span class="code">lg</span></p>
+        <p class="plain">Working on a GPU server usually means logging in over SSH, copying files back and forth, and babysitting long training runs. Live Git fixes the three worst parts of that, so the server feels like part of your laptop.</p>
+        <ul class="bullets">
+          <li><b>Run anything there.</b> Type <code>lg</code> in front of a command and it runs on the server, with live output, colours, progress bars and Ctrl-C, exactly as if it were local.</li>
+          <li><b>Edit here.</b> <code>lg mount</code> makes the server’s whole project appear as a normal folder, instantly, even for huge ones. Files download when you open them, and saves reach the server in milliseconds.</li>
+          <li><b>Leave long runs alone.</b> <code>lg run -d</code> detaches a job so it keeps going when your laptop sleeps or the connection drops. Pick up the logs later.</li>
+        </ul>
+        <p class="plain"><b>Made for AI agents too.</b> A coding agent can’t answer a two-factor login prompt or live inside a remote shell. Live Git gives it real local files to read and edit and one command to run things on the server. <code>lg init</code> even writes an instruction file so the agent knows how to use it from its first prompt, and the whole loop of fix, retrain and read the results can run without a person in the middle.</p>
+        <p class="stack">Built with Go, FUSE and SSH. Installs with one Homebrew command; 29 releases so far.</p>
+        <p class="links"><a href="https://iamtaehyunpark.github.io/livegit/">Landing page, with the full walkthrough</a> <a href="https://github.com/iamtaehyunpark/livegit">Code</a></p>
+      </article>
+
+      <article class="entry">
+        <h3>Linearead, reading without your eyes jumping back</h3>
+        <p class="meta"><span class="dot s-shipped"></span>Released, April to May 2026</p>
+        <p class="plain">When you read, your eyes reach the end of a line and swing back to the start of the next. This Chrome extension slides the text past a fixed marker as you scroll sideways, so your eyes stay in one place. It works on any web page.</p>
+        <p class="stack">Built with TypeScript and Vite.</p>
+        <p class="links"><a href="https://chromewebstore.google.com/detail/fpeagiabbikiiabchkmacdilmepjfahf">Chrome Web Store</a> <a href="https://github.com/iamtaehyunpark/linearead">Code</a></p>
+      </article>
+
+      <article class="entry">
+        <h3>Badger Course Watch, a nudge when a full class opens</h3>
+        <p class="meta"><span class="dot s-shipped"></span>Released, November 2025 to April 2026</p>
+        <p class="plain">A Chrome extension for UW–Madison students. Pick the classes you want, and it tells you when a seat opens. It can also add your schedule to a calendar.</p>
+        <p class="links"><a href="https://github.com/iamtaehyunpark/seatnoti">Code</a></p>
+      </article>
+
+      <article class="entry">
+        <h3>Issue-In, why is this trending?</h3>
+        <p class="meta"><span class="dot s-retired"></span>Retired, April to July 2025</p>
+        <p class="plain">A Korean website that watches online communities and news, works out which topics are heating up, and writes a short explanation of the story behind each one. To keep the summaries honest, I used a small model tuned to stick closely to the scraped text.</p>
+        <p class="stack">Built with Next.js, FastAPI and PostgreSQL.</p>
+      </article>
+
+      <article class="entry">
+        <h3>RealReview, restaurant ratings as a temperature</h3>
+        <p class="meta"><span class="dot s-proto"></span>Prototype, July 2026</p>
+        <p class="plain">Five-star ratings are inflated, so nearly every place scores 4.5. RealReview shows each restaurant on a map with a 0 to 100 temperature, cold blue to hot red. A rating takes one tap.</p>
+        <p class="stack">Built with Next.js, Supabase and Naver Maps.</p>
+        <p class="links"><a href="https://realreview-mocha.vercel.app">Demo</a> <span class="muted">The code is private.</span></p>
+      </article>
+
+      <article class="entry">
+        <h3>Seoul Trend Dashboard, which cafes are taking off</h3>
+        <p class="meta"><span class="dot s-proto"></span>Prototype, June to July 2026</p>
+        <p class="plain">Reads Korean blog and social posts, uses an AI model to pull out which places people mention and how they feel about them, and ranks Seoul venues by how fast their buzz is growing. I designed it to keep AI costs low by batching posts and skipping ones it has already seen.</p>
+        <p class="stack">Built with Python, FastAPI and Gemini. The code is private.</p>
+      </article>
+
+      <h3 class="sub">Smaller and older projects</h3>
+      <dl class="mini">
+        <dt><a href="https://github.com/iamtaehyunpark/two-stage-stitcher">Two-Stage Stitcher</a> <span class="state">paused</span></dt>
+        <dd>Hand one model’s internal “train of thought” to a different model so it can pick up mid-thought.</dd>
+        <dt><a href="https://github.com/iamtaehyunpark/reasoning-bank">ReasoningBank</a> <span class="state">replication</span></dt>
+        <dd>My reimplementation of Google’s method that lets an agent keep lessons from its earlier attempts.</dd>
+        <dt><a href="https://github.com/iamtaehyunpark/birdeye">BirdEye</a> <span class="state">prototype</span></dt>
+        <dd>Works out where a camera is looking by matching what it sees to a reference image.</dd>
+        <dt>AdaptiveSimulation <span class="state">prototype</span></dt>
+        <dd>Several AI agents that each see only part of the information, so they don’t all rush to the same answer.</dd>
+        <dt>InfiniteRace <span class="state">prototype</span></dt>
+        <dd>A racing game concept on real-world roads, where an image-generating model paints the scenery as you drive.</dd>
+      </dl>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2>Experience</h2>
+
+      <div class="row">
+        <p class="when">June 2026 to now</p>
+        <div>
+          <h3>Undergraduate research intern</h3>
+          <p class="where">Yonsei University, Seoul</p>
+          <p>Developing SURF, a way to find the failing step in a multi-agent system without any training, and testing it on Who&amp;When against published methods. I also collected failed runs from several multi-agent frameworks.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">June to August 2026</p>
+        <div>
+          <h3>Undergraduate researcher</h3>
+          <p class="where">University of Wisconsin–Madison</p>
+          <p>Built and tested the agent warning light described above, on about 30,000 labelled steps from six model families. Showed that agents’ own confidence signals do not carry over between models or tasks.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">February to May 2026</p>
+        <div>
+          <h3>Research project: EngramTrace</h3>
+          <p class="where">University of Wisconsin–Madison</p>
+          <p>Designed, built and evaluated the notebook-style memory system described above, working alone.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">September 2023 to March 2025</p>
+        <div>
+          <h3>C4I systems specialist, Sergeant</h3>
+          <p class="where">Republic of Korea Army, Paju</p>
+          <p>Ran the army’s satellite, radio and fiber networks and its Linux and Windows servers on a defense network. I turned recurring chores into small tools: one script to check every unit PC’s security settings, an intranet-only way to distribute patches, and a single combined notice popup that replaced ten stacked ones and that non-programmers could edit.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">November 2022 to January 2023</p>
+        <div>
+          <h3>Research assistant</h3>
+          <p class="where">Last-Mile Delivery Living Lab, Yonsei University</p>
+          <p>Studied why an autonomous delivery robot failed on real streets, then reprogrammed its sensors and controllers so it planned paths and avoided obstacles better.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">July to October 2022</p>
+        <div>
+          <h3>Team leader</h3>
+          <p class="where">Tencent WeStart entrepreneurship program, Shanghai</p>
+          <p>Chosen by audition among 24 Korean and Chinese students. Proposed a platform that connects Korean shoppers directly with Chinese factories, led the Flutter demo and wrote the marketing plan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <h2>Education and skills</h2>
+
+      <div class="row">
+        <p class="when">Expected May 2027</p>
+        <div>
+          <h3>B.S. Computer Science</h3>
+          <p class="where">University of Wisconsin–Madison</p>
+          <p>GPA 3.96 out of 4.00. Dean’s List. Honors in Major.</p>
+          <p class="muted">Courses include Introduction to AI (Honors), Advanced Data Structures and Algorithms, Discrete Mathematics and Computer Systems, and Linear Algebra and Applied Probability.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">2024</p>
+        <div>
+          <h3>AI Expert Training Course</h3>
+          <p class="where">KAIST IT Academy</p>
+          <p>Data analysis, statistics and machine-learning theory, with hands-on neural networks.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">2024</p>
+        <div>
+          <h3>Army Startup Competition, participant</h3>
+          <p class="where">Team AARN</p>
+          <p>Proposed a network of AI-controlled relay nodes that keeps communications working when infrastructure is lost, and built a reinforcement-learning demo in Keras.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <p class="when">February 2023</p>
+        <div>
+          <h3>COS Pro Level 1, Java</h3>
+          <p class="where">YBM</p>
+          <p>Professional-level Java coding certification.</p>
+        </div>
+      </div>
+
+      <dl class="skills">
+        <dt>Languages</dt><dd>Python, TypeScript, Swift, Go, Java, C, SQL</dd>
+        <dt>Machine learning</dt><dd>PyTorch, vLLM, Hugging Face, uncertainty estimation, retrieval, embeddings</dd>
+        <dt>Apps and web</dt><dd>Next.js, React, SwiftUI, FastAPI, Supabase and Postgres, Chrome extensions</dd>
+        <dt>Infrastructure</dt><dd>Linux servers, SSH, GCP, Vercel</dd>
+        <dt>Spoken</dt><dd>Korean (native), English (fluent)</dd>
+      </dl>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>I’m open to research collaborations, internships and interesting problems. Email is the quickest way to reach me.</p>
+      <ul class="contact">
+        <li><a href="mailto:tpark45@wisc.edu">tpark45@wisc.edu</a></li>
+        <li><a href="mailto:taehyunpark.w@gmail.com">taehyunpark.w@gmail.com</a></li>
+        <li><a href="https://github.com/iamtaehyunpark">github.com/iamtaehyunpark</a></li>
+        <li><a href="assets/Taehyun_Park_CV.pdf" download>Download my CV (PDF)</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      <span>© <span id="yr">2026</span> Taehyun Park</span>
+      <a href="#top">Back to top</a>
+    </footer>
+  </main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
