@@ -45,7 +45,7 @@
       <p class="tagline">Computer science student at UW–Madison, focused on AI and agentic systems.</p>
       <p class="cta">
         <a class="btn" href="mailto:tpark45@wisc.edu">Email me</a>
-        <a class="btn ghost" href="assets/Taehyun_Park_CV.pdf" download>Download CV</a>
+        <a class="btn ghost" href="assets/Taehyun_Park_CV.pdf?v=20260929" download>Download CV</a>
         <a class="btn ghost" href="https://github.com/iamtaehyunpark">GitHub</a>
       </p>
     </div>
@@ -66,7 +66,7 @@
       </div>
       <div>
         <dt>Right now</dt>
-        <dd>Research intern at Yonsei University (SURF). Building Fethr, a diary app now in beta.</dd>
+        <dd>Research intern at Yonsei University, on uncertainty estimation for LLM agents. Building Fethr, a diary app now in beta.</dd>
       </div>
     </dl>
   </section>
@@ -99,18 +99,19 @@
           </svg>
         </div>
         <div class="card-body">
-          <p class="status"><span class="dot s-proto"></span>In progress, Yonsei University, since June 2026</p>
+          <p class="status"><span class="dot s-shipped"></span>Completed, Yonsei University, June to September 2026 (co-author)</p>
           <h3><button type="button" class="open">SURF: Uncertainty Ranking for Training-Free Failure Attribution in Multi-Agent Systems</button></h3>
-          <p class="summary">Finds which step of a failed multi-agent run went wrong by ranking every step’s uncertainty, with no extra training.</p>
-          <p class="tags">Python, LLM observer models, Who&amp;When benchmark</p>
+          <p class="summary">Finds which step of a failed multi-agent run went wrong from a small open model’s uncertainty about each step, with no training and no API calls.</p>
+          <p class="tags">Python, open-weight observer models, Who&amp;When benchmark</p>
         </div>
         <div class="full" hidden>
           <p>When several AI agents work together and the job fails, someone has to work out which step actually broke it. Reading the whole transcript with a very large model is expensive, and training a dedicated model needs many labelled failures.</p>
-          <p>SURF uses a small model that scores each step by how likely it is to be fine, and keeps that score instead of rounding it to yes or no. A step rated 51% and one rated 91% both round to “yes” but are very different. Ranking the steps by score points to the shakiest one, with no training and no labelled failures.</p>
+          <p>SURF uses a fixed, open-weight model as an observer. It scores each step by how likely it is to be fine, and keeps that score instead of rounding it to yes or no. A step rated 51% and one rated 91% both round to “yes” but are very different. Ranking the steps by score points to the shakiest one, with no training and no labelled failures.</p>
           <ul>
             <li>Tested on Who&amp;When, a public set of failed multi-agent runs where humans marked the culprit step.</li>
-            <li>Compared on accuracy and cost against methods that need a large judge model or extra training.</li>
-            <li>Experiments are still running, so no results are quoted yet.</li>
+            <li>Beat judging by a closed frontier model by up to 10.3 percentage points, with no API calls.</li>
+            <li>The gain comes from keeping the continuous score: it beats the same observer’s yes/no answer in 51 of 56 settings.</li>
+            <li>Holds across different ways of picking the step and different uncertainty measures. A single quick “is this step true?” probability was the strongest and cheapest signal.</li>
           </ul>
         </div>
       </article>
@@ -132,19 +133,19 @@
           </svg>
         </div>
         <div class="card-body">
-          <p class="status"><span class="dot s-active"></span>Active, University of Wisconsin–Madison, June to August 2026</p>
-          <h3><button type="button" class="open">DACS-AUQ: Cost-Effective Online Uncertainty Quantification for LLM Agents</button></h3>
-          <p class="summary">A separate “inspector” model scores every step an AI agent takes, so a bad step can be flagged before it does damage.</p>
+          <p class="status"><span class="dot s-active"></span>Active, Yonsei University, since June 2026 (first author)</p>
+          <h3><button type="button" class="open">Step-Level Uncertainty Quantification for LLM Agents (DACS-AUQ)</button></h3>
+          <p class="summary">One frozen “inspector” model scores every step any AI agent takes, including agents behind paid APIs, so a bad step can be flagged before it does damage.</p>
           <p class="tags">Python, vLLM, ALFWorld, HotpotQA</p>
         </div>
         <div class="full" hidden>
           <p>An AI agent finishes a task in many small steps: look something up, click a button, run a command. Sometimes step 6 quietly goes wrong and everything after it is wasted. The goal is a warning light that comes on before a bad step is taken.</p>
-          <p>The obvious approach is to ask the agent how sure it is, but what “sure” means changes from one model to the next. Instead, a separate, fixed model acts as an inspector. It watches each step of any agent and gives it a trust score, like a second pair of eyes that doesn’t share the agent’s blind spots.</p>
+          <p>The obvious approach is to ask the agent how sure it is, but what “sure” means changes from one model to the next. Instead, a separate, fixed model acts as an inspector. It reads each step of any agent in a single pass, with no training, and gives it a trust score. It is calibrated once and then reused across agents, like a second pair of eyes that doesn’t share the agent’s blind spots.</p>
           <ul>
-            <li>Evaluated on 62,065 steps from agents doing household tasks in a text world (ALFWorld) and answering multi-part questions (HotpotQA).</li>
-            <li>Caught mistakes better than the agents’ own self-checks in 9 of 11 settings, at about 1/100 the cost of using GPT-4o as the judge.</li>
-            <li>Chooses when to raise the alarm for a new agent without any labelled mistakes from that agent.</li>
-            <li>Negative results are reported alongside the positive ones.</li>
+            <li>Built and released a corpus of about 62,000 labelled steps from 6 model families on household tasks in a text world (ALFWorld) and multi-part questions (HotpotQA), under three definitions of “error”.</li>
+            <li>No agent’s own confidence signal carried over to other agents, and judging whole runs is confounded by how long the run is.</li>
+            <li>Caught mistakes better than the agents’ own self-checks in 10 of 11 settings, at about 1/100 the cost of using GPT-4o as the judge. The gain splits into the inspector’s skill and a measured tendency of agents to be lenient on themselves.</li>
+            <li>Chooses when to raise the alarm for a new agent without any labelled mistakes from that agent: 12 of 16 held-out tests landed within tolerance across four inspector types.</li>
           </ul>
           <p class="full-links"><a href="https://github.com/iamtaehyunpark/DACS-AUQ">Code and results</a></p>
         </div>
@@ -305,7 +306,6 @@
       <li><b>Issue-In</b><span class="state">retired, 2025</span><p>Explains why topics are trending in Korean online communities. Scrapes and ranks posts in real time, then writes a short background summary. Next.js, FastAPI, PostgreSQL.</p></li>
       <li><b>Seoul Trend Dashboard</b><span class="state">prototype, 2026</span><p>Detects which Seoul venues are trending from Korean social posts, using LLM extraction with batching to keep costs low. Python, FastAPI, Gemini.</p></li>
       <li><b><a href="https://github.com/iamtaehyunpark/two-stage-stitcher">Two-Stage Stitcher</a></b><span class="state">paused, 2026</span><p>Hands one model’s internal state to a different model so it can continue mid-thought.</p></li>
-      <li><b><a href="https://github.com/iamtaehyunpark/reasoning-bank">ReasoningBank</a></b><span class="state">replication, 2026</span><p>Reimplementation of Google’s method that lets an agent keep lessons from earlier attempts.</p></li>
       <li><b><a href="https://github.com/iamtaehyunpark/birdeye">BirdEye</a></b><span class="state">prototype, 2026</span><p>Works out where a camera is looking by matching what it sees to a reference image.</p></li>
       <li><b>AdaptiveSimulation</b><span class="state">prototype</span><p>Agents that each see only part of the information, so they don’t all converge on the same answer too early.</p></li>
       <li><b>InfiniteRace</b><span class="state">prototype</span><p>A racing game on real-world roads, where an image-generating model paints the scenery as you drive.</p></li>
@@ -319,12 +319,7 @@
       <div class="row">
         <p class="when">June 2026 to now</p>
         <div><h3>Undergraduate research intern, Yonsei University</h3>
-          <p>Developing SURF, a training-free way to find the failing step in a multi-agent system, and testing it on Who&amp;When against published methods. Collected failed runs from several multi-agent frameworks.</p></div>
-      </div>
-      <div class="row">
-        <p class="when">June to August 2026</p>
-        <div><h3>Undergraduate researcher, UW–Madison</h3>
-          <p>Built and tested DACS-AUQ on about 30,000 labelled steps from six model families. Showed that agents’ own confidence signals do not carry over between models or tasks.</p></div>
+          <p>First author of a step-level uncertainty estimator for LLM agents (DACS-AUQ), still in progress. Co-author of SURF, a training-free way to find the failing step in a multi-agent system, which beat closed-model judges on Who&amp;When by up to 10.3 percentage points.</p></div>
       </div>
       <div class="row">
         <p class="when">February to May 2026</p>
@@ -393,7 +388,7 @@
       <li><a href="mailto:tpark45@wisc.edu">tpark45@wisc.edu</a></li>
       <li><a href="mailto:taehyunpark.w@gmail.com">taehyunpark.w@gmail.com</a></li>
       <li><a href="https://github.com/iamtaehyunpark">github.com/iamtaehyunpark</a></li>
-      <li><a href="assets/Taehyun_Park_CV.pdf" download>Download CV (PDF)</a></li>
+      <li><a href="assets/Taehyun_Park_CV.pdf?v=20260929" download>Download CV (PDF)</a></li>
     </ul>
   </section>
 
