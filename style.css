@@ -54,7 +54,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 .btn:hover { filter: brightness(1.1); }
 .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
 .btn.ghost:hover { border-color: var(--muted); filter: none; }
-.avatar { position: relative; width: 200px; height: 200px; border-radius: 24px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); display: grid; place-items: center; justify-self: end; }
+.avatar { position: relative; width: 210px; height: 280px; border-radius: 24px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); display: grid; place-items: center; justify-self: end; }
 .avatar-ph { font-size: 56px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
 .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .glance { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 48px 0 0; border-top: 1px solid var(--line); }
@@ -145,7 +145,7 @@ dialog::backdrop { background: rgb(10 14 13 / 0.55); }
   .top nav { display: none; }
   .top-in { justify-content: space-between; }
   .hero { grid-template-columns: minmax(0, 1fr) 132px; gap: 8px 24px; padding-top: 44px; }
-  .avatar { width: 132px; height: 132px; border-radius: 18px; }
+  .avatar { width: 132px; height: 176px; border-radius: 18px; }
   .avatar-ph { font-size: 38px; }
   .glance { grid-template-columns: 1fr; margin-top: 32px; }
   .glance > div, .glance > div + div { padding: 16px 0; border-left: 0; }
@@ -161,7 +161,7 @@ dialog::backdrop { background: rgb(10 14 13 / 0.55); }
   .timeline .row, .skills { grid-template-columns: 1fr; gap: 2px; }
   .skills dt { margin-top: 8px; }
   .hero { grid-template-columns: 1fr; }
-  .avatar { grid-row: 1; justify-self: start; width: 96px; height: 96px; }
+  .avatar { grid-row: 1; justify-self: start; width: 108px; height: 144px; }
   .avatar-ph { font-size: 30px; }
   .modal-in { padding: 22px 20px 24px; }
 }
