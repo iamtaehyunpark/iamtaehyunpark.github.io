@@ -43,6 +43,28 @@
   document.querySelectorAll('.card .open').forEach(function (b) {
     b.addEventListener('click', function () { openCard(b.closest('.card')); });
   });
+
+  // Show each card's links, and a Details button, as visible buttons on the card
+  document.querySelectorAll('.card').forEach(function (card) {
+    var body = card.querySelector('.card-body');
+    if (!body || !card.querySelector('.open')) return;
+    var bar = document.createElement('div');
+    bar.className = 'card-actions';
+    card.querySelectorAll('.full .full-links a').forEach(function (a) {
+      var l = document.createElement('a');
+      l.className = 'btn small';
+      l.href = a.getAttribute('href');
+      l.textContent = a.textContent + ' \u2197';
+      bar.appendChild(l);
+    });
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'btn small ghost';
+    d.textContent = 'Details';
+    d.addEventListener('click', function () { openCard(card); });
+    bar.appendChild(d);
+    body.appendChild(bar);
+  });
   modal.querySelector('.modal-x').addEventListener('click', function () { modal.close(); });
   modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); }); // click backdrop
   modal.addEventListener('close', function () {
