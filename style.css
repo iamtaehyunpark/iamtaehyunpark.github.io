@@ -42,6 +42,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 .top nav { display: flex; gap: 22px; margin-left: auto; font-size: 15px; }
 .top nav a { color: var(--muted); text-decoration: none; }
 .top nav a:hover { color: var(--ink); }
+.top nav a[aria-current] { color: var(--ink); }
 .theme-btn { font: 500 13px var(--sans); color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; cursor: pointer; }
 .theme-btn:hover { color: var(--ink); border-color: var(--muted); }
 
